@@ -19,10 +19,6 @@ import java.time.LocalDate;
 
 @RestController
 @Validated
-@CrossOrigin(
-        origins = "https://cat.urstannightmare.ru",
-        allowCredentials = "true"
-)
 @RequestMapping("/api/v1")
 public class TaskController {
     private static final Logger log = LoggerFactory.getLogger(TaskController.class);

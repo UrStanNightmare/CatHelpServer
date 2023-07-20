@@ -15,3 +15,4 @@ spring:
       platform: h2
 server:
   port: ${SERVER_PORT:8080}
+  origin: ${AVAILABLE_ORIGIN:http://localhost:8080}
