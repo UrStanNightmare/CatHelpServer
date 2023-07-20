@@ -1,0 +1,49 @@
+plugins {
+	id 'application'
+	id 'org.springframework.boot' version '3.0.6'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'com.palantir.docker' version '0.35.0'
+}
+
+group = 'ru.urstannightmare'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+application{
+	mainClassName = 'ru.urstannightmare.cathelpserver.CatHelpServerApplication'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+jar{
+	archiveBaseName = 'cat-help-server'
+	manifest {
+		attributes 'Main-Class': 'ru.urstannightmare.cathelpserver.CatHelpServerApplication'
+	}
+}
+
+docker{
+	name 'ru.urstannightmare/cat-help-server:' + project.version
+}

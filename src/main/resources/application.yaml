@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./db/cathelp
+    username: catmaster
+    password: pwdpwd
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: false
+      path: /console
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      platform: h2
+server:
+  port: ${SERVER_PORT}
