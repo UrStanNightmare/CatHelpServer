@@ -19,8 +19,8 @@
 Имеются базовые тесты сервиса, в будущем планирую расширить их покрытие. Пока тестируется только работа с тасками.
 
 ## Эндпоинты:
-### 1. [AuthApi.yml](openapi/CatHelpServerAuthApi.yml) - [Посмотреть красиво](https://petstore.swagger.io/?url=https://github.com/UrStanNightmare/cathelpserver/blob/dev/openapi/CatHelpServerAuthApi.yml)
-### 2. [TaskApi.yml](openapi/CatHelpServerTaskApi.yml) - [Посмотреть красиво](https://petstore.swagger.io/?url=https://github.com/UrStanNightmare/cathelpserver/blob/dev/openapi/CatHelpServerTaskApi.yml)
+### 1. [AuthApi.yml](openapi/CatHelpServerAuthApi.yml)
+### 2. [TaskApi.yml](openapi/CatHelpServerTaskApi.yml)
 
 
 ## Запуск:
