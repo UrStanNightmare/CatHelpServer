@@ -20,7 +20,7 @@
 
 ## Эндпоинты:
 ### 1. [AuthApi.yml](openapi/CatHelpServerAuthApi.yml) - [Посмотреть красиво](https://petstore.swagger.io/?url=https://github.com/UrStanNightmare/cathelpserver/blob/dev/openapi/CatHelpServerAuthApi.yml)
-### 2. [AuthApi.yml](openapi/CatHelpServerTaskApi.yml) - [Посмотреть красиво](https://petstore.swagger.io/?url=https://github.com/UrStanNightmare/cathelpserver/blob/dev/openapi/CatHelpServerTaskApi.yml)
+### 2. [TaskApi.yml](openapi/CatHelpServerTaskApi.yml) - [Посмотреть красиво](https://petstore.swagger.io/?url=https://github.com/UrStanNightmare/cathelpserver/blob/dev/openapi/CatHelpServerTaskApi.yml)
 
 
 ## Запуск:
