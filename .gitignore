@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-buildimage.ps1
-sendImage.ps1
+*.ps1
 docker-compose.yml
 logs/
+/.jpb/
