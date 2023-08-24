@@ -1,0 +1,65 @@
+openapi: "3.0.3"
+info:
+  title: "CatHelpServer API"
+  description: "CatHelpServer API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /auth/signin:
+    post:
+      summary: "Войти и получить токены"
+      operationId: "signIn"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignInRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+  /auth/token:
+    post:
+      summary: "Получить новый access токен, используя refresh токен"
+      operationId: "recreateTokens"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccessTokenRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+components:
+  schemas:
+    SignInRequest:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+    TokenResponse:
+      type: "object"
+      properties:
+        accessToken:
+          type: "string"
+        refreshToken:
+          type: "string"
+        type:
+          type: "string"
+    AccessTokenRequest:
+      type: "object"
+      properties:
+        refreshToken:
+          type: "string"
