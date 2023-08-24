@@ -1,0 +1,145 @@
+openapi: "3.0.3"
+info:
+  title: "CatHelpServer API"
+  description: "CatHelpServer API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /api/v2/health:
+    get:
+      summary: "Проверка онлайн ли сервис"
+      operationId: "healthCheck"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+      tags:
+        - 'Task'
+  /api/v2/tasks:
+    get:
+      summary: "Получение тасков на месяц"
+      operationId: "getTasks"
+      parameters:
+        - name: "date"
+          in: "query"
+          description: "Дата дня в месяце, на который будем полчать таски"
+          required: true
+          schema:
+            type: "string"
+            format: "date"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TasksResponse"
+      tags:
+        - 'Task'
+  /api/v2/task:
+    post:
+      summary: "Добавить новый таск"
+      operationId: "postTask"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostTaskRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TasksResponse"
+      tags:
+        - 'Task'
+  /api/v2/task/{id}/status:
+    post:
+      summary: "Изменить статус выполнения задания на противоположный"
+      operationId: "updateTaskDoneState"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+      tags:
+        - 'Task'
+  /api/v2/task/{id}:
+    delete:
+      summary: "Удалить таск"
+      operationId: "deleteTask"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+      tags:
+        - 'Task'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    StatusResponse:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+    Task:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        date:
+          type: "string"
+          format: "date-time"
+        description:
+          type: "string"
+    TasksResponse:
+      type: "object"
+      properties:
+        tasks:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Task"
+        generatedDate:
+          type: "string"
+          format: "date"
+    PostTaskRequest:
+      type: "object"
+      properties:
+        date:
+          type: "string"
+          format: "date-time"
+        description:
+          type: "string"
+security:
+  - bearerAuth: []

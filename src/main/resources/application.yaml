@@ -1,18 +1,71 @@
 spring:
+  profiles:
+    default: local
+  main:
+    banner-mode: off
   datasource:
-    url: ${DB_URL:jdbc:h2:file:./db/cathelp}
-    username: ${DB_USER:catmaster}
-    password: ${DB_PWD:pwdpwd}
-    driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: false
-      path: /console
-  sql:
-    init:
-      mode: always
-      continue-on-error: false
-      platform: h2
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/test}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: cathelp
+    open-in-view: false
+  liquibase:
+    enabled: true
+    contexts: schema, data
+    change-log: classpath:liquibase/master.xml
+    liquibase-schema: liquibase
+    default-schema: cathelp
+    user: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+  security:
+    secret:
+      access: ${SPRING_SECURITY_SECRET_ACCESS:YWRhc2Rhc2RhZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQ=}
+      refresh: ${SPRING_SECURITY_SECRET_REFRESH:YWRhc2Rhc2RhZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQ=}
+    expiration:
+      access: ${SPRING_SECURITY_EXPIRATION_TIME_ACCESS:900}
+      refresh: ${SPRING_SECURITY_EXPIRATION_TIME_REFRESH:3600}
 server:
-  port: ${SERVER_PORT:8080}
-  origin: ${AVAILABLE_ORIGIN:http://localhost:8080}
+  port: ${SPRING_SERVER_PORT:8080}
+  origins: ${SPRING_SERVER_AVAILABLE_ORIGINS:}
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  main:
+    banner-mode: off
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        default_schema: cathelp
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:domain1-db;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS liquibase\;CREATE SCHEMA IF NOT EXISTS cathelp\;CREATE SCHEMA IF NOT EXISTS users\;;
+    username: sa
+    password:
+  liquibase:
+    user: sa
+    password:
+    contexts: schema
+    liquibase-schema: liquibase
+    default-schema: cathelp
+  security:
+    secret:
+      access: YWRhc2Rhc2RhZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQ=
+      refresh: YWRhc2Rhc2RhZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQ=
+    expiration:
+      access: 900
+      refresh: 3600
+server:
+  origins:
