@@ -1,0 +1,44 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="001" author="UrStanNightmare">
+        <createSequence incrementBy="1"
+                        schemaName="users"
+                        sequenceName="user_seq"
+                        startValue="1"/>
+
+        <createTable schemaName="users"
+                     tableName="user">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user"/>
+            </column>
+            <column name="username" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addDefaultValue tableName="user" columnName="id" defaultValueSequenceNext="user_seq" schemaName="users"/>
+        <addUniqueConstraint columnNames="username" constraintName="uc_user_username" schemaName="users" tableName="user"/>
+
+        <createTable schemaName="users"
+                tableName="rtokens">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="refresh_token" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="rtokens"
+                       tableName="tasks"/>
+            <dropTable schemaName="users"
+                       tableName="tasks"/>
+            <dropSequence schemaName="user"
+                          sequenceName="user_seq"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
